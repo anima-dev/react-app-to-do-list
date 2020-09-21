@@ -2,17 +2,15 @@ import React from 'react';
 import { Input, InputGroup, InputGroupAddon, Button } from 'reactstrap';
 
 
-const SearchPanel = () => {
+const TaskInput = () => {
     return (
         <InputGroup className='mt-3'>
-            <Input placeholder='search'/>
+            <Input placeholder='What needs to be done?'/>
             <InputGroupAddon addonType="append">
-                <Button>All</Button>
-                <Button outline>Active</Button>
-                <Button outline>Done</Button>
+                <Button>Add</Button>
             </InputGroupAddon>
         </InputGroup>
     );
 };
 
-export default SearchPanel;
+export default TaskInput;
