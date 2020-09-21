@@ -16,6 +16,8 @@ export default class App extends Component {
         ]
     }
 
+    maxId = 6;
+
     onToggleProps = (id, propName) => {
         this.setState(({data}) => {
             const index = data.findIndex(item => item.id === id);
@@ -43,13 +45,28 @@ export default class App extends Component {
         })
     }
 
+    onItemAdded = (text) => {
+        const newItem = {
+            id: this.maxId++, 
+            important: false, 
+            label: text, 
+            done: false
+        }
+        this.setState(({data}) => {
+            const newArr = [...data, newItem];
+            return {
+                data: newArr
+            }
+        })
+    }
+
     render() {
         return (
             <Container>
                 <AppHeader data={this.state.data}/>
                 <SearchPanel/>
                 <ToDoList data={this.state.data} onToggleProps={this.onToggleProps} onDeleted={this.onDeleted}/>
-                <TaskInput/>
+                <TaskInput onItemAdded={this.onItemAdded}/>
             </Container>
         );
     }
