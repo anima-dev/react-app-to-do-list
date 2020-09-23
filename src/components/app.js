@@ -13,8 +13,10 @@ export default class App extends Component {
             {id: 3, important: false, label: 'Sing', done: true},
             {id: 4, important: false, label: 'Dance', done: false},
             {id: 5, important: true, label: 'Code', done: false}
-        ]
-    }
+        ],
+        searchTerm: '',
+        filterTerm: 'all'
+    };
 
     maxId = 6;
 
@@ -30,7 +32,7 @@ export default class App extends Component {
                 data: newArr
             }
         })
-    }
+    };
 
     onDeleted = (id) => {
         this.setState(({data}) => {
@@ -43,7 +45,7 @@ export default class App extends Component {
                 data: newArr
             }
         })
-    }
+    };
 
     onItemAdded = (text) => {
         const newItem = {
@@ -58,14 +60,45 @@ export default class App extends Component {
                 data: newArr
             }
         })
-    }
+    };
+
+    onSearchUpdate = (searchTerm) => {
+        this.setState({searchTerm});
+    };
+
+    onFilterUpdate = (filterTerm) => {
+        this.setState({filterTerm});
+    };
+
+    filterItems = (filter, data) => {
+        switch (filter) {
+            case 'active':
+                return data.filter(item => !item.done);
+            case 'done':
+                return data.filter(item => item.done);
+            default: 
+                return data;
+        }
+
+    };
+
+    searchItems = (search, data) => {
+        if (!search) {
+            return data;
+        }
+
+        return data.filter(item => item.label.toLowerCase().includes(search.toLowerCase()));
+    };
 
     render() {
+        const {data, filterTerm, searchTerm} = this.state;
+        const itemsList = this.searchItems(searchTerm, (this.filterItems(filterTerm, data)));
+
         return (
             <Container>
                 <AppHeader data={this.state.data}/>
-                <SearchPanel/>
-                <ToDoList data={this.state.data} onToggleProps={this.onToggleProps} onDeleted={this.onDeleted}/>
+                <SearchPanel onSearchUpdate={this.onSearchUpdate} onFilterUpdate={this.onFilterUpdate}/>
+                <ToDoList data={itemsList} onToggleProps={this.onToggleProps} onDeleted={this.onDeleted}/>
                 <TaskInput onItemAdded={this.onItemAdded}/>
             </Container>
         );
