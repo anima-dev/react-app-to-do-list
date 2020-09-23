@@ -1,11 +1,16 @@
 import React, {Component} from 'react';
-import { Input, InputGroup, InputGroupAddon, Button, ButtonGroup } from 'reactstrap';
-
+import { Input, InputGroup, InputGroupAddon, Button } from 'reactstrap';
 
 export default class SearchPanel extends Component {
     state = {
         term: '',
     }
+
+    filterButtons = [
+        {name: 'all', label: 'All'},
+        {name: 'active', label: 'Active'},
+        {name: 'done', label: 'Done'}
+    ];
 
     onChange = (e) => {
         this.setState({
@@ -28,6 +33,17 @@ export default class SearchPanel extends Component {
     };
 
     render() {
+        const buttons = this.filterButtons.map(button => {
+            const isActive = button.name === this.props.filter;
+            const outline = isActive ? false : true;
+    
+            return (
+                <Button outline={outline}>
+                    {button.label}
+                </Button>
+            )
+        });
+
         return (
             <InputGroup className='mt-3'>
                 <Input 
@@ -35,11 +51,7 @@ export default class SearchPanel extends Component {
                     value={this.state.term}
                     onChange={this.onChange}/>
                 <InputGroupAddon addonType="append" onClick={this.onBtnClicked}>
-                    <ButtonGroup>
-                        <Button outline>All</Button>
-                        <Button outline>Active</Button>
-                        <Button outline>Done</Button>
-                    </ButtonGroup>
+                        {buttons}
                 </InputGroupAddon>
             </InputGroup>
         );

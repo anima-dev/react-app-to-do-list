@@ -97,7 +97,7 @@ export default class App extends Component {
         return (
             <Container>
                 <AppHeader data={this.state.data}/>
-                <SearchPanel onSearchUpdate={this.onSearchUpdate} onFilterUpdate={this.onFilterUpdate}/>
+                <SearchPanel onSearchUpdate={this.onSearchUpdate} filter={filterTerm} onFilterUpdate={this.onFilterUpdate}/>
                 <ToDoList data={itemsList} onToggleProps={this.onToggleProps} onDeleted={this.onDeleted}/>
                 <TaskInput onItemAdded={this.onItemAdded}/>
             </Container>
